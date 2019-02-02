@@ -63,4 +63,9 @@ group :production do
 end
 
 gem 'rake', '< 11.0'
+group :production do
+  gem 'pg', '0.21.0'
+end
+
+gem 'jquery-rails'
 

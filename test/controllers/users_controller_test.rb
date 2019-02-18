@@ -48,12 +48,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
   
   # #有効化されていない属性を許可しない
-  test "should not allow not activated attribute" do
-    log_in_as(@non_activated_user)  #@non_activated_userでログインする
-    assert_not @non_activated_user.activated?  #@non_activated_userの有効化属性がfalse
-    get users_path  #get usersにアクセス
-    assert_select "a[href=?]", user_path(@non_activated_user), count: 0  #@non_activated_userのプロフィールページへのリンクがユーザー一覧に表示されない
-    get user_path(@non_activated_user)  #users/:idにアクセス(有効化されていないユーザー) #ルートのURLにリダイレクト
-    assert_redirected_to root_url  #ルートのURLにリダイレクト
-  end
+  # test "should not allow not activated attribute" do
+  #   log_in_as(@non_activated_user)  #@non_activated_userでログインする
+  #   assert_not @non_activated_user.activated?  #@non_activated_userの有効化属性がfalse
+  #   get users_path  #get usersにアクセス
+  #   assert_select "a[href=?]", user_path(@non_activated_user), count: 0  #@non_activated_userのプロフィールページへのリンクがユーザー一覧に表示されない
+  #   get user_path(@non_activated_user)  #users/:idにアクセス(有効化されていないユーザー) #ルートのURLにリダイレクト
+  #   assert_redirected_to root_url  #ルートのURLにリダイレクト
+  # end
 end

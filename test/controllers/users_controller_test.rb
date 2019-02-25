@@ -56,4 +56,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   #   get user_path(@non_activated_user)  #users/:idにアクセス(有効化されていないユーザー) #ルートのURLにリダイレクト
   #   assert_redirected_to root_url  #ルートのURLにリダイレクト
   # end
+   test "should redirect following when not logged in" do
+    get following_user_path(@user)
+    assert_redirected_to login_url
+  end
+
+  test "should redirect followers when not logged in" do
+    get followers_user_path(@user)
+    assert_redirected_to login_url
+  end
 end

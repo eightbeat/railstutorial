@@ -84,4 +84,33 @@ class UserTest < ActiveSupport::TestCase
       @user.destroy                                    #ユーザーを削除する
     end
   end
+  
+  test "should follow and unfollow a user" do
+    michael = users(:michael)
+    archer  = users(:archer)
+    assert_not michael.following?(archer)
+    michael.follow(archer)
+    assert michael.following?(archer)
+    assert archer.followers.include?(michael)
+    michael.unfollow(archer)
+    assert_not michael.following?(archer)
+  end
+  
+  test "feed should have the right posts" do
+    michael = users(:michael)                              #fixtureから、michaelユーザの情報を取得する
+    archer  = users(:archer)                               #fixtureから、archerユーザの情報を取得する
+    lana    = users(:lana)                                 #fixtureから、lanaユーザの情報を取得する
+    # フォローしているユーザーの投稿を確認
+    lana.microposts.each do |post_following|               #lanaのマイクロポストを取得
+      assert michael.feed.include?(post_following)         #michaelのフィードに含まれていること
+    end
+    # 自分自身の投稿を確認
+    michael.microposts.each do |post_self|                 #michaelのマイクロポストを取得
+      assert michael.feed.include?(post_self)              #michaelのフィードに含まれていること
+    end
+    # フォローしていないユーザーの投稿を確認
+    archer.microposts.each do |post_unfollowed|            #archerのマイクロポストを取得
+      assert_not michael.feed.include?(post_unfollowed)    #michaelのフィードに含まれていないこと
+    end
+  end
 end
